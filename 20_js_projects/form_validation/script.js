@@ -22,36 +22,76 @@ function isValidEmail(email)    {
     return re.test(String(email).toLowerCase());
 }
 
+
+//check required fields
+function checkRequired(inputArr){
+    inputArr.forEach(function(input){
+        if(input.value.trim() === '') {
+            showError(input, `${getFieldName(input)} is required...`);
+        } else {
+            showSuccess(input);
+        }
+    });
+}
+
+
+ 
+
+//check input length
+function checkLength(input, min, max) {
+    if(input.value.length < min) {
+        showError(input, `${getFieldName(input)} Length must be more than ${min}...`);
+    } else if(input.value.length > max) {
+        showError(input, `${getFieldName(input)} Length must be less than ${max}...`);
+    } else {
+        showSuccess(input);
+    }
+}
+
+function getFieldName(input){
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
 form.addEventListener("submit", function(e) {
 
     e.preventDefault();
 
-    if(username.value === '') {
-        showError(username, 'Username is required');
-    } else {
-        showSuccess(username);
-    }
+    checkRequired([username,  email, password, password2]);
+    checkLength(username, 3, 15);
+    checkLength(password, 6, 25);
 
 
-    if(email.value === '') {
-        showError(email, 'Email is required');
-    } else if(!isValidEmail(email.value)) {
-        showError(email, 'Email is not valid');
-    }else {
-        showSuccess(email);
-    }
 
 
-    if(password.value === '') {
-        showError(password, 'Password is required');
-    } else {
-        showSuccess(password);
-    }
+
+    //initial implementation (not scalable)
+
+    // if(username.value === '') {
+    //     showError(username, 'Username is required');
+    // } else {
+    //     showSuccess(username);
+    // }
 
 
-    if(password2.value === '') {
-        showError(password2, 'Password is required');
-    } else {
-        showSuccess(password2);
-    }
+    // if(email.value === '') {
+    //     showError(email, 'Email is required');
+    // } else if(!isValidEmail(email.value)) {
+    //     showError(email, 'Email is not valid');
+    // }else {
+    //     showSuccess(email);
+    // }
+
+
+    // if(password.value === '') {
+    //     showError(password, 'Password is required');
+    // } else {
+    //     showSuccess(password);
+    // }
+
+
+    // if(password2.value === '') {
+    //     showError(password2, 'Password is required');
+    // } else {
+    //     showSuccess(password2);
+    // }
 });
